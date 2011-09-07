@@ -16,7 +16,6 @@ public class Application extends Controller {
     }
     
     public static void postNotification(String content, String endpoint) {
-    	System.out.println(endpoint);
     	VirtualFile file = Play.getVirtualFile("app/views/notify.xml");
     	// TODO : render notify using template engine
     	if (file == null) {
