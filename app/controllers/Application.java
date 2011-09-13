@@ -82,7 +82,7 @@ public class Application extends Controller {
 	 * Subscribe page
 	 */
 	public static void subscribe(String topicName) {
-		List<Endpoint> endpoints = Endpoint.getFromType("consumer");
+		List<Endpoint> endpoints = Endpoint.getFromType("producer");
 		List<Subscription> subscriptions = Subscription.all().fetch();
 		Topic topic = null;
 		if (topicName != null) {
@@ -94,7 +94,7 @@ public class Application extends Controller {
 	}
 
 	public static void notification(String topicName) {
-		List<Endpoint> endpoints = Endpoint.getFromType("producer");
+		List<Endpoint> endpoints = Endpoint.getFromType("consumer");
 		Topic topic = null;
 		if (topicName != null) {
 		 topic = Topic.find("byName", topicName).first();
