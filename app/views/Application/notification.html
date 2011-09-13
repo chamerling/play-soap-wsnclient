@@ -1,0 +1,68 @@
+#{extends 'main.html' /}
+#{set title:'Notify' /}
+
+<div class="page-header">
+    <h1>Send Notification Messages</h1>
+</div>
+  
+#{if flash.success}
+	<div class="alert-message success">
+        <a class="close" href="#">&times;</a>
+        <p><strong>${flash.success}</strong></p>
+      </div>
+#{/if}
+#{if flash.error}
+	<div class="alert-message error">
+        <a class="close" href="#">&times;</a>
+        <p><strong>${flash.error}</strong></p>
+      </div>
+#{/if}
+
+#{form @Application.postNotification()}
+		<fieldset>
+				<div class="clearfix">
+        			<label for="topicName">Topic Name</label>
+        			<div class="input">
+        				<input type="text" name="topicName" id="content" class="xlarge" size="30" #{if topic}value="${topic.name}"#{/if}/>
+        			</div>
+        		</div>
+        		<div class="clearfix">
+        			<label for="topicPrefix">Topic Prefix</label>
+        			<div class="input">
+        				<input type="text" name="topicPrefix" id="content" class="xlarge" size="30" #{if topic}value="${topic.prefix}"#{/if}/>
+        			</div>
+        		</div>
+        		<div class="clearfix">
+        			<label for="topicURI">Topic URI</label>
+        			<div class="input">
+        				<input type="text" name="topicURI" id="content" class="xlarge" size="30" #{if topic}value="${topic.uri}"#{/if}/>
+        			</div>
+        		</div>
+				<div class="clearfix">
+        			<label for="content">Content</label>
+        			<div class="input">
+					<textarea class="xxlarge" id="content" name="content" style="margin-top: 0px; margin-bottom: 0px; height: 215px; margin-left: 0px; margin-right: 0px; width: 553px; "></textarea>
+					<span class="help-block">
+                			Put the notification content, may be some XML data.
+              			</span>
+        			</div>
+        		</div>
+        
+        		<div class="clearfix">
+         			<label for="normalSelect">Endpoint</label>
+         			<div class="input">
+         				<select name="endpoint" id="endpoint">
+         					#{list endpoints, as : 'endpoint'}
+           					<option>${endpoint.url}</option>
+           					#{/list}
+         				</select>
+         			</div>
+         		</div>
+         		
+	    		<div class="actions">
+        			<input class="btn primary" type="submit" value="Notify" />
+        			&nbsp;
+        			<button type="reset" class="btn">Cancel</button>
+        		</div>
+        </fieldset>
+#{/form}

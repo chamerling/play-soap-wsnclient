@@ -4,8 +4,13 @@
 
 # Home page
 GET     /                                       Application.index
+GET		/notification							Application.notification
+GET		/subscribe								Application.subscribe
+GET		/logger									Application.logger
+GET		/topics									Application.topics
 
-POST    /            						Application.postNotification
+POST    /postnotify            						Application.postNotification
+POST    /postsubscribe            					Application.postSubscribe
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

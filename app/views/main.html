@@ -8,24 +8,54 @@
         #{get 'moreStyles' /}
         <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
         <script src="@{'/public/javascripts/jquery-1.5.2.min.js'}" type="text/javascript" charset="utf-8"></script>
+        <script src="@{'/public/javascripts/application.js'}" type="text/javascript" charset="utf-8"></script>
         #{get 'moreScripts' /}
     </head>
     <body>
     
-    <div class="topbar-wrapper" style="z-index: 5;">
     <div class="topbar">
-      <div class="topbar-inner">
+      <div class="fill">
         <div class="container">
-          <h3><a href="#">WSN Client</a></h3>
-          <ul class="nav">
-            <li class="active"><a href="#">Home</a></li>
+          <h3><a href="@{Application.index()}">WSN Client</a></h3>
+          <ul>
+            <!--- browse -->
+            <ul class="nav secondary-nav">
+              <li class="menu">
+                <a href="#" class="menu">WSN</a>
+                <ul class="menu-dropdown">
+                  <li><a href="@{Application.notification()}">Notify</a></li>
+                  <li><a href="@{Application.subscribe()}">Subscribe</a></li>
+                </ul>
+              </li>
+            </ul>
+            <ul class="nav secondary-nav">
+              <li class="menu">
+                <a href="#" class="menu">Tools</a>
+                <ul class="menu-dropdown">
+                  <li><a href="@{Application.topics()}">Topics</a></li>
+                  <li><a href="@{Application.logger()}">Listen</a></li>
+                </ul>
+              </li>
+            </ul>
+          </ul>
+          <ul class="nav secondary-nav">
+          	<li><a href="@{Application.about()}">About</a></li>
           </ul>
         </div>
-      </div><!-- /topbar-inner -->
-    </div><!-- /topbar -->
-  </div>
-  
-  <p><br><br></p>
+      </div> <!-- /fill -->
+    </div>
+    
+    <!--
+    <div>
+    <ul class="tabs">
+  		<li class="active"><a href="#">Home</a></li>
+  		<li><a href="#">Notify</a></li>
+  		<li><a href="#">Subscribe</a></li>
+  		<li><a href="#">Listen</a></li>
+	</ul>
+    </div>
+    -->
+    
   <div class="container">
      #{doLayout /}
   </div>

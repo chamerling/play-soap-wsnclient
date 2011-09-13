@@ -1,0 +1,49 @@
+#{extends 'main.html' /}
+#{set title:'Subscribe' /}
+
+<div class="page-header">
+    <h1>Topics</h1>
+</div>
+
+
+#{if flash.success}
+	<div class="alert-message success">
+        <a class="close" href="#">&times;</a>
+        <p><strong>${flash.success}</strong></p>
+      </div>
+#{/if}
+#{if flash.error}
+	<div class="alert-message error">
+        <a class="close" href="#">&times;</a>
+        <p><strong>${flash.error}</strong></p>
+      </div>
+#{/if}
+
+<!-- List all the available topics -->
+#{if topics}
+	<table class="zebra-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Topic Name</th>
+            <th>Topic Prefix</th>
+            <th>Topic URI</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        #{list topics, as : 'topic'}
+          <tr>
+          	<td></td>
+            <td>${topic.name}</td>
+            <td>${topic.prefix}</td>
+            <td>${topic.uri}</td>
+            <td><a href="@{Application.subscribe(topic.name)}" class="btn info">Subscribe &raquo;</a>&nbsp;<a class="btn info" href="@{Application.notification(topic.name)}">Notify &raquo;</a></td>
+          </tr>
+        #{/list}
+        </tbody>
+      </table>
+#{/if}
+#{else}
+There are no registered topics...
+#{/else}
