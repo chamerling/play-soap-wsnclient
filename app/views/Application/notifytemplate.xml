@@ -8,11 +8,6 @@
 					<add:Address>${subscriber}</add:Address>
 				</b:SubscriptionReference>
 				<b:Topic Dialect="http://www.w3.org/TR/1999/REC-xpath-19991116" xmlns:${topicPrefix}="${topicURL}">${topicPrefix}:${topicName}</b:Topic>
-				<!-- 
-				<b:ProducerReference>
-					<add:Address>http://localhost:8084/petals/services/NotificationProducerPortService</add:Address>
-				</b:ProducerReference>
-				-->
 				<b:Message>
 					<foo>${content}</foo>
 				</b:Message>

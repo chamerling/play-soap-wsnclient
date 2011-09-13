@@ -29,9 +29,12 @@ public class Application extends Controller {
 		map.put("topicName", topicName);
 		map.put("topicURL", topicURL);
 		map.put("topicPrefix", topicPrefix);
+		map.put("subscriber", endpoint);
 
 		String rendered = TemplateLoader.load("Application/notifytemplate.xml")
 				.render(map);
+		
+		System.out.println(rendered);
 
 		WSRequest request = WS.url(endpoint)
 				.setHeader("content-type", "application/soap+xml")
