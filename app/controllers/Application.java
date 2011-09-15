@@ -8,12 +8,14 @@ import models.Endpoint;
 import models.Subscription;
 import models.Topic;
 import play.libs.WS;
+import play.libs.WS.HttpResponse;
 import play.libs.WS.WSRequest;
+import play.mvc.Before;
 import play.mvc.Controller;
 import play.templates.TemplateLoader;
 
 public class Application extends Controller {
-
+	
 	public static void index() {
 		// TODO : need to render endpoints...
 		render();
@@ -33,8 +35,6 @@ public class Application extends Controller {
 
 		String rendered = TemplateLoader.load("Application/notifytemplate.xml")
 				.render(map);
-		
-		System.out.println(rendered);
 
 		WSRequest request = WS.url(endpoint)
 				.setHeader("content-type", "application/soap+xml")
@@ -52,9 +52,9 @@ public class Application extends Controller {
 
 	public static void postSubscribe(String topicName, String topicPrefix,
 			String topicURL, String subscriber, String endpoint) {
-		
+
 		// TODO : validate fields
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		// will be nice to have this type of thing with the same code available
@@ -63,7 +63,7 @@ public class Application extends Controller {
 		map.put("topicURL", topicURL);
 		map.put("topicPrefix", topicPrefix);
 		map.put("subscriber", subscriber);
-		
+
 		String rendered = TemplateLoader.load(
 				"Application/subscribetemplate.xml").render(map);
 
@@ -81,6 +81,33 @@ public class Application extends Controller {
 		subscribe(topicName);
 	}
 
+	public static void postGetTopics(String endpoint) {
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		String rendered = TemplateLoader.load(
+				"Application/gettopicstemplate.xml").render(map);
+
+		WSRequest request = WS.url(endpoint)
+				.setHeader("content-type", "application/soap+xml")
+				.body(rendered);
+
+		try {
+			HttpResponse response = request.post();
+			String topics = response.getString();
+			flash.put("topics", topics);
+			getTopics();
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			flash.error("Can not send subscribe to %s, cause '%s'!", endpoint,
+					e.getMessage());
+		}
+	}
+
+	public static void getTopics() {
+		List<Endpoint> endpoints = Endpoint.getFromType("producer");
+		render(endpoints);
+	}
+
 	/**
 	 * Subscribe page
 	 */
@@ -89,7 +116,7 @@ public class Application extends Controller {
 		List<Subscription> subscriptions = Subscription.all().fetch();
 		Topic topic = null;
 		if (topicName != null) {
-		 topic = Topic.find("byName", topicName).first();
+			topic = Topic.find("byName", topicName).first();
 		} else {
 		}
 		String subscriber = request.getBase() + "/TODO";
@@ -100,12 +127,12 @@ public class Application extends Controller {
 		List<Endpoint> endpoints = Endpoint.getFromType("consumer");
 		Topic topic = null;
 		if (topicName != null) {
-		 topic = Topic.find("byName", topicName).first();
+			topic = Topic.find("byName", topicName).first();
 		} else {
 		}
 		render(endpoints, topic);
 	}
-	
+
 	public static void topics() {
 		List<Topic> topics = Topic.findAll();
 		render(topics);

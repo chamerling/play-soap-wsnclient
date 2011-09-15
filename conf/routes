@@ -8,9 +8,11 @@ GET		/notification							Application.notification
 GET		/subscribe								Application.subscribe
 GET		/logger									Application.logger
 GET		/topics									Application.topics
+GET		/topicset								Application.getTopics
 
-POST    /postnotify            						Application.postNotification
-POST    /postsubscribe            					Application.postSubscribe
+POST    /postnotify            					Application.postNotification
+POST    /postsubscribe            				Application.postSubscribe
+POST    /posttopics                             Application.postGetTopics
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
