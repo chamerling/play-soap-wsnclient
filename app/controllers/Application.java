@@ -10,12 +10,14 @@ import models.Topic;
 import play.libs.WS;
 import play.libs.WS.HttpResponse;
 import play.libs.WS.WSRequest;
+import play.libs.XML;
 import play.mvc.Before;
 import play.mvc.Controller;
+import play.templates.JavaExtensions;
 import play.templates.TemplateLoader;
 
 public class Application extends Controller {
-	
+
 	public static void index() {
 		// TODO : need to render endpoints...
 		render();
@@ -93,13 +95,10 @@ public class Application extends Controller {
 
 		try {
 			HttpResponse response = request.post();
-			String topics = response.getString();
-			flash.put("topics", topics);
-			getTopics();
+			String topics = JavaExtensions.escapeXml(response.getString());
+			renderText(topics);
 		} catch (RuntimeException e) {
-			e.printStackTrace();
-			flash.error("Can not send subscribe to %s, cause '%s'!", endpoint,
-					e.getMessage());
+			renderText("Error : " + e.getMessage());
 		}
 	}
 

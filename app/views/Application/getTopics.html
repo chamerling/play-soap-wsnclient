@@ -19,14 +19,14 @@
       </div>
 #{/if}
 
-#{form @Application.postGetTopics()}
+<form id="target">
 		<fieldset>
         		<div class="clearfix">
          			<label for="normalSelect">Endpoint</label>
          			<div class="input">
          				<select name="endpoint" id="endpoint">
          					#{list endpoints, as : 'endpoint'}
-           					<option>${endpoint.url}</option>
+           					<option value="${endpoint.url}">${endpoint.url}</option>
            					#{/list}
          				</select>
          			</div>
@@ -38,7 +38,24 @@
         			<button type="reset" class="btn">Cancel</button>
         		</div>
         </fieldset>
-#{/form}
+<form>
+
+<div id="topicset"></div>
+
+<script type="text/javascript">
+	// Capture Form Submit Event
+	$('#target').submit(function() {
+	$('#topicset').empty();
+	$('#topicset').append('Loading...');
+	$('#topicset').empty();
+	$.post('@@{Application.postGetTopics()}', { endpoint: $('select option:selected').val() }, function(data){
+		$('#topicset').append('<pre><code>' + data + '</code></pre>');	
+	});
+	return false;
+	});
+
+</script>
+
 
 #{if flash.topics}
 <h2>Response</h2>
